@@ -37,6 +37,7 @@ public class TrataImagenes {
             }
         }
         normalizar();
+        this.blanco = 255;
     }
     
     public void muestraPrueba(){
@@ -68,9 +69,9 @@ public class TrataImagenes {
         int nFilasTmp = this.nFilas;
         this.nFilas = this.nColumnas;
         this.nColumnas = nFilasTmp;
-        for (int i = 0; i < this.nFilas; i++) {
-            for (int j = this.nColumnas-1, jTmp = 0; j > 0; j--, jTmp++) {
-                imagenArrTmp[i][jTmp] = this.imagenArr[j][i];
+        for (int filas = 0; filas < this.nFilas; filas++) {
+            for (int columnas = this.nColumnas-1, columnasTmp = 0; columnas > 0; columnas--, columnasTmp++) {
+                imagenArrTmp[filas][columnasTmp] = this.imagenArr[columnas][filas];
             }
         }
         this.imagenArr = imagenArrTmp;
@@ -80,13 +81,61 @@ public class TrataImagenes {
         int nFilasTmp = this.nFilas;
         this.nFilas = this.nColumnas;
         this.nColumnas = nFilasTmp;
-        for (int i = this.nFilas, iTmp = 0; i > 0; i--, iTmp++) {
-            for (int j = 0; j > this.nColumnas; j--) {
-                imagenArrTmp[iTmp][j] = this.imagenArr[j][i];
+        for (int filas = this.nFilas-1, filasTmp = 0; filas > 0; filas--, filasTmp++) {
+            for (int columnas = 0; columnas < this.nColumnas; columnas++) {
+                imagenArrTmp[filasTmp][columnas] = this.imagenArr[columnas][filas];
             }
         }
         this.imagenArr = imagenArrTmp;
     }
+    public void flipHorizontal(){
+        int[][] imagenArrTmp = new int[this.nFilas][this.nColumnas];
+        for (int filas = 0; filas < this.nFilas; filas++) {
+            for (int columnas = this.nColumnas-1, columnasTmp = 0; columnas > 0; columnas--, columnasTmp++) {
+                imagenArrTmp[filas][columnasTmp] = this.imagenArr[filas][columnas];
+            }
+        }
+        this.imagenArr = imagenArrTmp;
+    }
+    public void flipVertical(){
+        int[][] imagenArrTmp = new int[this.nFilas][this.nColumnas];
+        for (int filas = this.nFilas-1, filasTmp = 0; filas > 0; filas--, filasTmp++) {
+            for (int columnas = 0; columnas < this.nColumnas; columnas++) {
+                imagenArrTmp[filasTmp][columnas] = this.imagenArr[filas][columnas];
+            }
+        }
+        this.imagenArr = imagenArrTmp;
+    }
+    
+    public void filtroCaja(){
+        int[][] imagenArrTmp = new int[this.nFilas][this.nColumnas];
+        for (int i = 0; i < this.nFilas; i++) {
+            for (int j = 0; j < this.nColumnas; j++) {
+                System.out.println("\t\t\t\t:" + i + " , " + j);
+                imagenArrTmp[i][j] = mediaAlrededores(i, j);
+            }
+        }
+        this.imagenArr = imagenArrTmp;
+    }
+    
+    public int mediaAlrededores(int fila, int columna){
+        int contCasillas = 0;
+        int posFila;
+        int posColumna;
+        int sumaTot = 0;
+        for (int i = -1; i <= 1; i++) {
+            posFila = fila + i;
+            for (int j = -1; j <= 1; j++) {
+                posColumna = columna + j;
+                if((posFila >= 0 && posFila < this.nFilas) && (posColumna >= 0 && posColumna < this.nColumnas)){
+                    sumaTot += this.imagenArr[posFila][posColumna];
+                    contCasillas++;
+                }
+            }
+        }
+        return (int)Math.round(sumaTot*1.0/contCasillas);
+    }
+    
     public String getRuta() {
         return ruta;
     }
