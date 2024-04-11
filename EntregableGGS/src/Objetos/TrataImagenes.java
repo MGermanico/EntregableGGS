@@ -15,6 +15,7 @@ import java.util.Scanner;
  */
 public class TrataImagenes {
     private String ruta;
+    private String mensaje;
     private int blanco;
     private int nFilas;
     private int nColumnas;
@@ -23,11 +24,14 @@ public class TrataImagenes {
     public TrataImagenes(String ruta) throws FileNotFoundException{
         File file = new File(ruta);
         try(Scanner scFile = new Scanner(file)){
-            scFile.nextLine();
-            scFile.nextLine();
+            if (!scFile.nextLine().equals("P2")) {
+//                throw new ();
+            }
+            this.mensaje = scFile.nextLine();
             this.nColumnas = scFile.nextInt();
             this.nFilas = scFile.nextInt();
             this.blanco = scFile.nextInt();
+            this.ruta = ruta;
             
             this.imagenArr = new int[nFilas][nColumnas];
             for (int i = 0; i < this.nFilas; i++) {
@@ -41,9 +45,12 @@ public class TrataImagenes {
     }
     
     public void muestraPrueba(){
+        String pixelActualNormalizado;
+        System.out.println("RUTA: " + this.ruta);
         for (int i = 0; i < this.nFilas; i++) {
             for (int j = 0; j < this.nColumnas; j++) {
-                System.out.print(utilsGestionString.normalizaTamanyos(Integer.toString(this.imagenArr[i][j]), 3) + " ");
+                pixelActualNormalizado = utilsGestionString.normalizaTamanyos(Integer.toString(this.imagenArr[i][j]), 3);
+                System.out.print(pixelActualNormalizado + " ");
             }
             System.out.println();
         }
@@ -70,7 +77,8 @@ public class TrataImagenes {
         this.nFilas = this.nColumnas;
         this.nColumnas = nFilasTmp;
         for (int filas = 0; filas < this.nFilas; filas++) {
-            for (int columnas = this.nColumnas-1, columnasTmp = 0; columnas > 0; columnas--, columnasTmp++) {
+            for (int columnas = this.nColumnas-1, columnasTmp = 0; columnas >= 0; columnas--, columnasTmp++) {
+                System.out.println("c,f : " + filas + ", " + columnas + " -> " + this.imagenArr[columnas][filas]);
                 imagenArrTmp[filas][columnasTmp] = this.imagenArr[columnas][filas];
             }
         }
@@ -81,7 +89,7 @@ public class TrataImagenes {
         int nFilasTmp = this.nFilas;
         this.nFilas = this.nColumnas;
         this.nColumnas = nFilasTmp;
-        for (int filas = this.nFilas-1, filasTmp = 0; filas > 0; filas--, filasTmp++) {
+        for (int filas = this.nFilas-1, filasTmp = 0; filas >= 0; filas--, filasTmp++) {
             for (int columnas = 0; columnas < this.nColumnas; columnas++) {
                 imagenArrTmp[filasTmp][columnas] = this.imagenArr[columnas][filas];
             }
@@ -91,7 +99,7 @@ public class TrataImagenes {
     public void flipHorizontal(){
         int[][] imagenArrTmp = new int[this.nFilas][this.nColumnas];
         for (int filas = 0; filas < this.nFilas; filas++) {
-            for (int columnas = this.nColumnas-1, columnasTmp = 0; columnas > 0; columnas--, columnasTmp++) {
+            for (int columnas = this.nColumnas-1, columnasTmp = 0; columnas >= 0; columnas--, columnasTmp++) {
                 imagenArrTmp[filas][columnasTmp] = this.imagenArr[filas][columnas];
             }
         }
@@ -99,7 +107,7 @@ public class TrataImagenes {
     }
     public void flipVertical(){
         int[][] imagenArrTmp = new int[this.nFilas][this.nColumnas];
-        for (int filas = this.nFilas-1, filasTmp = 0; filas > 0; filas--, filasTmp++) {
+        for (int filas = this.nFilas-1, filasTmp = 0; filas >= 0; filas--, filasTmp++) {
             for (int columnas = 0; columnas < this.nColumnas; columnas++) {
                 imagenArrTmp[filasTmp][columnas] = this.imagenArr[filas][columnas];
             }
@@ -134,6 +142,10 @@ public class TrataImagenes {
             }
         }
         return (int)Math.round(sumaTot*1.0/contCasillas);
+    }
+    
+    public void guardar() {
+        
     }
     
     public String getRuta() {
@@ -174,6 +186,14 @@ public class TrataImagenes {
 
     public void setBlanco(int blanco) {
         this.blanco = blanco;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
     
     

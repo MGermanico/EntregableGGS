@@ -17,12 +17,13 @@ public class Exec {
     public static void main(String[] args) {
         TrataImagenes ti;
         
+        utilsCreadorMenus.separador();
         do {
             ti = seleccionaRuta();
         } while (ti == null);
         
         boolean repetir = true;
-        boolean mostrar = true;
+        boolean mostrar = false;
         String mostrarOcultar = "mostrar";
         
         do {
@@ -41,7 +42,9 @@ public class Exec {
                     + mostrarOcultar + " pixeles",
                     true,true);
             if (entrada.equals("1")) {
-                seleccionaRuta();
+                do {
+                    ti = seleccionaRuta();
+                } while (ti == null);
             }else if (entrada.equals("2")) {
                 ti.girarDerecha();
             }else if (entrada.equals("3")) {
