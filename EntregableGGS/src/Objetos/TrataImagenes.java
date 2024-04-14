@@ -7,6 +7,8 @@ package Objetos;
 import Utils.utilsGestionString;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -78,7 +80,7 @@ public class TrataImagenes {
         this.nColumnas = nFilasTmp;
         for (int filas = 0; filas < this.nFilas; filas++) {
             for (int columnas = this.nColumnas-1, columnasTmp = 0; columnas >= 0; columnas--, columnasTmp++) {
-                System.out.println("c,f : " + filas + ", " + columnas + " -> " + this.imagenArr[columnas][filas]);
+//                System.out.println("c,f : " + filas + ", " + columnas + " -> " + this.imagenArr[columnas][filas]);
                 imagenArrTmp[filas][columnasTmp] = this.imagenArr[columnas][filas];
             }
         }
@@ -144,8 +146,18 @@ public class TrataImagenes {
         return (int)Math.round(sumaTot*1.0/contCasillas);
     }
     
-    public void guardar() {
+    public void guardar() throws IOException {
+        File file = new File(this.ruta);
+        FileWriter fw = new FileWriter(file, false);
         
+        fw.write("P2\n" + this.getMensaje() + "\n" + this.nColumnas + " " + this.nFilas + "\n" + this.blanco + "\n");
+        for (int i = 0; i < this.nFilas; i++) {
+            for (int j = 0; j < this.nColumnas; j++) {
+                fw.write(this.imagenArr[i][j] + " ");
+            }
+            fw.write("\n");
+        }
+        fw.close();
     }
     
     public String getRuta() {

@@ -8,6 +8,9 @@ import Objetos.TrataImagenes;
 import Utils.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,7 +42,8 @@ public class Exec {
                     + "Flip horizontal#"
                     + "Filtro negativo#"
                     + "Filtro de caja#"
-                    + mostrarOcultar + " pixeles",
+                    + mostrarOcultar + " pixeles#"
+                    + "Guardar cambios",
                     true,true);
             if (entrada.equals("1")) {
                 do {
@@ -65,7 +69,13 @@ public class Exec {
                     mostrar = true;
                     mostrarOcultar = "Ocultar";
                 }
-            } else if (entrada.equalsIgnoreCase("s")) {
+            }else if (entrada.equals("9")) {
+                try {
+                    ti.guardar();
+                } catch (IOException ex) {
+                    Logger.getLogger("No se pudo guardar el archivo");
+                }
+            }  else if (entrada.equalsIgnoreCase("s")) {
                 repetir = false;
             }
         }while(repetir);

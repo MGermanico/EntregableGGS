@@ -5,7 +5,9 @@
 package Exec;
 
 import Objetos.TrataImagenes;
+import Utils.utilsCreadorMenus;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,13 +17,18 @@ import java.util.logging.Logger;
  */
 public class ExecPrueba {
     public static void main(String[] args) {
-        try {
-            TrataImagenes ti = new TrataImagenes("src/Imagenes/PRUEBA.pgm");
-            ti.muestraPrueba();
-            ti.girarDerecha();
-            ti.muestraPrueba();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ExecPrueba.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            TrataImagenes ti = new TrataImagenes("src/Imagenes/gato.pgm");
+//            ti.guardar();
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(ExecPrueba.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException e){
+//            
+//        }
+
+        utilsCreadorMenus.creadorDeMenus("Elige una opcion:#"
+                + "Cagar#"
+                + "Mear#"
+                + "Peerse");
     }
 }
