@@ -7,6 +7,7 @@ package Exec;
 import Objetos.TrataImagenes;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +33,8 @@ public class ExecGUI extends javax.swing.JFrame {
         this.jButtonGirarI.setVisible(false);
         this.jButtonNegativo.setVisible(false);
         this.jButtonCerrar.setVisible(false);
+        this.jButtonGuardar.setVisible(false);
+        this.jButton1.setVisible(false);
         
         iniciaLista();
     }
@@ -59,6 +62,8 @@ public class ExecGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableImagenes = new javax.swing.JTable();
         jButtonCerrar = new javax.swing.JButton();
+        jButtonGuardar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -144,6 +149,20 @@ public class ExecGUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,14 +177,17 @@ public class ExecGUI extends javax.swing.JFrame {
                             .addComponent(jButtonNegativo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonFlipH, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonFlipV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonGirarI, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(jButtonGirarI, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                             .addComponent(jButtonGirarD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, Short.MAX_VALUE)
+                            .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelIntroduceRuta, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                            .addComponent(jLabelIntroduceRuta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextFieldRuta))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,9 +215,13 @@ public class ExecGUI extends javax.swing.JFrame {
                     .addComponent(jButtonGirarD)
                     .addComponent(jButtonCerrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonGirarI)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGirarI)
+                    .addComponent(jButtonGuardar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonFlipV)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonFlipV)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonFlipH)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -232,6 +258,7 @@ public class ExecGUI extends javax.swing.JFrame {
             this.jButtonGirarI.setVisible(true);
             this.jButtonNegativo.setVisible(true);
             this.jButtonCerrar.setVisible(true);
+            this.jButtonGuardar.setVisible(true);
             //
             ti.muestraImagen(300);
         }catch(Exception e){
@@ -288,11 +315,29 @@ public class ExecGUI extends javax.swing.JFrame {
         }catch(Exception e){
         }
     }//GEN-LAST:event_jButtonCerrarActionPerformed
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        try {
+            // TODO add your handling code here:
+            ti.guardar();
+        } catch (IOException ex) {
+            Logger.getLogger(ExecGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            ti.aumentarResolucion();
+        } catch (Exception ex) {
+            Logger.getLogger(ExecGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
     private void actualizarImagen(){
         try {
-            ti.guardar();
+            ti.grabar();
             ti.cierraImagen();
-            ti.muestraImagen(240);
+            ti.muestraImagen(300);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -333,6 +378,7 @@ public class ExecGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCaja;
     private javax.swing.JButton jButtonCerrar;
     private javax.swing.JButton jButtonEnviarRuta;
@@ -340,6 +386,7 @@ public class ExecGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonFlipV;
     private javax.swing.JButton jButtonGirarD;
     private javax.swing.JButton jButtonGirarI;
+    private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonNegativo;
     private javax.swing.JLabel jLabelError;
     private javax.swing.JLabel jLabelImagenes;
@@ -354,7 +401,7 @@ public class ExecGUI extends javax.swing.JFrame {
             String rutaAct = "";
             Object[] filaAct = new Object[2];
             DefaultTableModel tabla = (DefaultTableModel) this.jTableImagenes.getModel();
-            File[] imagenes = ti.sacaImagenes();
+            File[] imagenes = ti.getImagenesFiles();
             rutasEnMemoria.clear();
             for (int i = 0; i < imagenes.length; i++) {
                 rutaAct = imagenes[i].getPath();

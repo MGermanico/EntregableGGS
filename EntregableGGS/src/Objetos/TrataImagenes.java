@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class TrataImagenes {
     private String ruta;
+    private String rutaImagenSinGuardar = "./src/GUI/imagen-sinGuardar.pgm";
     private String mensaje;
     private int blanco;
     private int nFilas;
@@ -51,15 +52,73 @@ public class TrataImagenes {
         normalizar();
         this.blanco = 255;
     }
-    public File[] sacaImagenes() throws Exception{
+    
+    public void aumentarResolucion() throws Exception{
+        int[][] imagenArrTmp = new int[this.nFilas*2][this.nColumnas*2];
+        imagenArrTmp = intercalaCeros(imagenArrTmp);
+        this.nFilas *= 2;
+        this.nColumnas *= 2;
+        this.imagenArr = imagenArrTmp;
+        try {
+            this.grabar();
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    private int[][] intercalaCeros(int[][] imagenArrTmp){
+        System.out.println("FILAS: " + this.nFilas);
+        System.out.println("CLMNS: " + this.nColumnas);
+        for (int iRapida = 0, iLenta = 0; iLenta < this.nFilas; iRapida += 2, iLenta++) {
+            for (int jRapida = 0, jLenta = 0; jLenta < this.nColumnas; jRapida += 2, jLenta++) {
+                System.out.println("jRapida " + jRapida + ", jLenta " + jLenta + "\t   \tiR" + iRapida + ", iL" + iLenta);
+                imagenArrTmp[iRapida][jRapida] = this.imagenArr[iLenta][jLenta];
+                System.out.println("");
+            }
+        }
+        return imagenArrTmp;
+    }
+    private boolean casillasPatron(int i, int j){
+        return (i % 2 != 0 && j % 2 == 0)||(i % 2 == 0 && j % 2 != 0);
+    }
+    private int sumaAlrededores(int iOrig, int jOrig, int[][] img) {
+        System.out.println("-----:");
+        int sumaAct = 0;
+        int c = 0;
+        for (int i = iOrig - 1; i <= iOrig + 1; i++) {
+            if (i != iOrig) {
+                try{
+                    sumaAct = img[i][jOrig];
+                    c++;
+                    System.out.println(i + "," + jOrig + " : " + img[i][jOrig]);
+                }catch(IndexOutOfBoundsException e){
+                }
+            }
+        }
+        System.out.println("---");
+        for (int j = jOrig - 1; j <= jOrig + 2; j++) {
+            if (j != iOrig) {
+                try{
+                    sumaAct = img[iOrig][j];
+                    c++;
+                    System.out.println(iOrig + "," + j + " : " + img[iOrig][j]);
+                }catch(IndexOutOfBoundsException e){
+                }
+            }
+        }
+        return sumaAct/c;
+    }
+    
+    public File[] getImagenesFiles() throws Exception{
         File[] rutas;
         File carpetaImagenes = new File("src/Imagenes/");
         rutas = carpetaImagenes.listFiles();
         return rutas;
     }
     public void muestraImagen(int pos) throws Exception{
-        File img = new File(ruta);
+        File img = new File(this.rutaImagenSinGuardar);
         try {
+            this.grabar();
+            
             frame = new ImagenVentana(img, pos);
         } catch (Exception ex) {
             throw ex;
@@ -167,6 +226,20 @@ public class TrataImagenes {
             }
         }
         return (int)Math.round(sumaTot*1.0/contCasillas);
+    }
+    
+    public void grabar()throws Exception{
+        File file = new File(this.rutaImagenSinGuardar);
+        FileWriter fw = new FileWriter(file, false);
+        
+        fw.write("P2\n" + this.getMensaje() + "\n" + this.nColumnas + " " + this.nFilas + "\n" + this.blanco + "\n");
+        for (int i = 0; i < this.nFilas; i++) {
+            for (int j = 0; j < this.nColumnas; j++) {
+                fw.write(this.imagenArr[i][j] + " ");
+            }
+            fw.write("\n");
+        }
+        fw.close();
     }
     
     public void guardar() throws IOException {
