@@ -4,12 +4,16 @@
  */
 package Objetos;
 
+import GUI.ImagenVentana;
 import Utils.utilsGestionString;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +26,9 @@ public class TrataImagenes {
     private int nFilas;
     private int nColumnas;
     private int[][] imagenArr;
-
+    private ImagenVentana frame = null;
+    public TrataImagenes(){
+    }
     public TrataImagenes(String ruta) throws FileNotFoundException{
         File file = new File(ruta);
         try(Scanner scFile = new Scanner(file)){
@@ -45,7 +51,24 @@ public class TrataImagenes {
         normalizar();
         this.blanco = 255;
     }
-    
+    public File[] sacaImagenes() throws Exception{
+        File[] rutas;
+        File carpetaImagenes = new File("src/Imagenes/");
+        rutas = carpetaImagenes.listFiles();
+        return rutas;
+    }
+    public void muestraImagen(int pos) throws Exception{
+        File img = new File(ruta);
+        try {
+            frame = new ImagenVentana(img, pos);
+        } catch (Exception ex) {
+            throw ex;
+        }
+        frame.setVisible(true);
+    }
+    public void cierraImagen(){
+        frame.dispose();
+    }
     public void muestraPrueba(){
         String pixelActualNormalizado;
         System.out.println("RUTA: " + this.ruta);
@@ -73,7 +96,7 @@ public class TrataImagenes {
             }
         }
     }
-    public void girarDerecha(){
+    public void girarIzquierda(){
         int[][] imagenArrTmp = new int[this.nColumnas][this.nFilas];
         int nFilasTmp = this.nFilas;
         this.nFilas = this.nColumnas;
@@ -86,7 +109,7 @@ public class TrataImagenes {
         }
         this.imagenArr = imagenArrTmp;
     }
-    public void girarIzquierda(){
+    public void girarDerecha(){
         int[][] imagenArrTmp = new int[this.nColumnas][this.nFilas];
         int nFilasTmp = this.nFilas;
         this.nFilas = this.nColumnas;
@@ -121,7 +144,7 @@ public class TrataImagenes {
         int[][] imagenArrTmp = new int[this.nFilas][this.nColumnas];
         for (int i = 0; i < this.nFilas; i++) {
             for (int j = 0; j < this.nColumnas; j++) {
-                System.out.println("\t\t\t\t:" + i + " , " + j);
+//                System.out.println("\t\t\t\t:" + i + " , " + j);
                 imagenArrTmp[i][j] = mediaAlrededores(i, j);
             }
         }
